@@ -1,6 +1,10 @@
 # 添加lxm用户到www组
 usermod -a -G www lxm
 
+# 将svnbang目录及其子目录的所有者改为lxm，所有组改为www
+chown lxm:www svnbang -R 
+
+
 # 安装deb包
 dpkg -i xxx.deb
 
@@ -26,3 +30,11 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT
+iptables -A INPUT -p tcp --dport 139 -m state --state NEW -j ACCEPT
+
+# samba
+# 测试
+testparam
